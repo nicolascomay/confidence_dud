@@ -23,6 +23,13 @@ In folder "data" you will find the data for both experiments. Rows are trials, a
 - _RT_confidence:_ indicates the response time (in ms) of the type 2 task (confidence report).
 - _N_sujeto:_ indicates the subject's number.
 - _binary_correct:_ a binary variable for correct (1) and incorrect (0) responses.
+- _Trial_number:_ trial number from 1 to 120 in experiment 1 and from to 480 in experiment 2.
+- _Mobile:_ binary indicator, a 1 if the subject performed the experiment on a mobile and a 0 if did it on a computer
+- _Code:_ a alphanumeric code that identifies the subject.
+- _Gender:_ a variable for gender identification of the participant. f=female; m=male; NoBinario=non binary gender identifications.
+- _Age:_ subject's age.
+
+_Note: experiment 2 contains more rows because it had more alternatives. For example, there are variables called n4SquareOrCircle and n5SquareOrCircle, indicating if the fourth and fifth alternative was a square (1) or a circle (0) respectively. The same is for the other variables, with a 3, 4 or 5 indicating to which alternative refers._
 
 ## Contact
 
