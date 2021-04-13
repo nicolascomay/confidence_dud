@@ -24,6 +24,11 @@ In folder "data" you will find the data for both experiments. Rows are trials, a
 - _N_sujeto:_ indicates the subject's number.
 - _binary_correct:_ a binary variable for correct (1) and incorrect (0) responses.
 - _Trial_number:_ trial number from 1 to 120 in experiment 1 and from to 480 in experiment 2.
+- _Angle:_ random angle for stimuli arrangement. 
+- _Step_Angle:_ a rotation of +/-120 degrees of stimuli arrangement. Is expressed in radians (+/- 2.0943...) 
+- _Area1:_ size of stimulus 1 (the final size will depend on the screen size).
+- _Area2:_ size of stimulus 2 (the final size will depend on the screen size).
+- _Area3:_ size of stimulus 3 (the final size will depend on the screen size).
 - _Mobile:_ binary indicator, a 1 if the subject performed the experiment on a mobile and a 0 if did it on a computer
 - _Code:_ a alphanumeric code that identifies the subject.
 - _Gender:_ a variable for gender identification of the participant. f=female; m=male; NoBinario=non binary gender identifications.
