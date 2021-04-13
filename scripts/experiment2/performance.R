@@ -106,7 +106,7 @@ ggplot(performanceN)+
 # -----------------------------------------------------------------------------------------
 
 ####################################################################################
-## Subtraction: performance with 3 alternatives - performance with 2 alternatives ##
+## Subtraction: performance with N alternatives - performance with 2 alternatives ##
 ####################################################################################
 
 resta_perf <- function(data, area2prop){
