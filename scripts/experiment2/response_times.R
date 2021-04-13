@@ -5,7 +5,7 @@ library(readxl)
 
 # -------------------------------------------------------------------------------------------------
 
-data <- read_xlsx('C:/Users/nicol/Documents/Tesis/analisis 2 a 5 alternativas/data_experiment2.xlsx')
+data <- read_xlsx('yourpath/data_experiment2.xlsx')
 data$Correct = as.logical(data$Correct)
 
 # ----------------------------------------------------------------------------------------------------
