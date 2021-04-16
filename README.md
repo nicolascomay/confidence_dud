@@ -4,11 +4,11 @@ This repository contains all the experimental data (folder "data") and scripts (
 
 ## Usage
 
-In order to run the scripts you'll have to download the experimental data (is in folder "data"). All scripts contain, in their first lines, a line where you will have to specify the path to where you have the experimental data on your computer. 
+In order to run the scripts you'll have to download the experimental data (is in folder "data"). All scripts contain, at the beginning, a line where you will have to specify the path to where you have the experimental data on your computer. 
 
 ## How is data organized 
 
-In folder "data" you will find the data for both experiments. Rows are trials, and the colums are organized as follows:
+In folder "data" you will find the data for both experiments. Rows are trials, and the columns are organized as follows:
 
 - _n3SquareOrCircle:_ indicates if the 3rd alternative was a square (1), a circle (2) or was not present (0).
 - _BiggerCircleOrSquare:_ indicates if the biggest figure was a circle (1) or a square (2)
@@ -30,11 +30,11 @@ In folder "data" you will find the data for both experiments. Rows are trials, a
 - _Area2:_ size of stimulus 2 (the final size will depend on the screen size).
 - _Area3:_ size of stimulus 3 (the final size will depend on the screen size).
 - _Mobile:_ binary indicator, a 1 if the subject performed the experiment on a mobile and a 0 if did it on a computer
-- _Code:_ a alphanumeric code that identifies the subject.
+- _Code:_ an alphanumeric code that identifies the subject.
 - _Gender:_ a variable for gender identification of the participant. f=female; m=male; NoBinario=non binary gender identifications.
 - _Age:_ subject's age.
 
-_Note: experiment 2 contains more rows because it had more alternatives. For example, there are variables called n4SquareOrCircle and n5SquareOrCircle, indicating if the fourth and fifth alternative was a square (1) or a circle (0) respectively. The same is for the other variables, with a 3, 4 or 5 indicating to which alternative refers._
+_Note: data from experiment 2 contains more columns because it had more alternatives. For example, there are variables called n4SquareOrCircle and n5SquareOrCircle, indicating if the fourth and fifth alternative was a square (1) or a circle (2) respectively (and 0 if it was not shown). The same is for the other variables, with a 3, 4 or 5 indicating to which alternative refers._
 
 ## Contact
 
