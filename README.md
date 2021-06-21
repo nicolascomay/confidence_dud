@@ -36,6 +36,9 @@ In folder "data" you will find the data for both experiments. Rows are trials, a
 
 _Note: data from experiment 2 contains more columns because it had more alternatives. For example, there are variables called n4SquareOrCircle and n5SquareOrCircle, indicating if the fourth and fifth alternative was a square (1) or a circle (2) respectively (and 0 if it was not shown). The same is for the other variables, with a 3, 4 or 5 indicating to which alternative refers._
 
+## Models
+In the 'scripts' folders you'll also find the code for the four models developed for this study: the max model, the diff model, the average-residual model and the contrast model.
+
 ## Contact
 
 For any doubts or suggestions you can send an e-mail to the corresponding author at nicocomay@gmail.com 
