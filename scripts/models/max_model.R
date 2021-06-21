@@ -87,8 +87,7 @@ for(i in 1:n){ # 10000 simulations for three alternatives trials
     three_alt_c[i,j] <- temp[2] # confidence
   }
 }
-#two_alt_c <- rescale(two_alt_c, to = 0:1) # rescale simulations to 0:1
-#three_alt_c <- rescale(three_alt_c, to = 0:1)
+
 
 #### plot modelling results #####
 df <- data.frame(mean_conf2 = c(mean(two_alt_c[,1]), mean(two_alt_c[,2]), mean(two_alt_c[,3]), 
@@ -128,8 +127,7 @@ for(i in 1:n){ # 10000 simulations for three alternatives trials
     three_alt_c[i,j] <- temp[2] # confidence
   }
 }
-#two_alt_c <- rescale(two_alt_c, to = 0:1) # rescale simulations to 0:1
-#three_alt_c <- rescale(three_alt_c, to = 0:1)
+
 
 # plot
 df <- data.frame(mean_conf2 = c(mean(two_alt_c[,1]), mean(two_alt_c[,2]), mean(two_alt_c[,3]), 
