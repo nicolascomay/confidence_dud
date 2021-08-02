@@ -8,7 +8,7 @@ data <- as_tibble(data)
 
 # ----------------------------------------------------------------------------------------------------
 
-####---- performance by difficulty ----####
+####---- confidence by difficulty ----####
 
 data %>%
   group_by(Nsujeto, distance_ratio) %>%  
@@ -43,11 +43,7 @@ data %>%
   theme_classic()
 
 
-# -------------------------------------------------------------------------------------
-
-###############################
-## confianza 3items - 2items ##
-###############################
+####---- confidence 3 alternatives - 2 alternatives ----####
 
 levels <- sort(unique(data$distance_ratio), decreasing = T)
 nsubj  <- max(data$Nsujeto)
