@@ -20,7 +20,7 @@ data %>%
   stat_summary(fun.data = mean_se,
                geom='errorbar', color='orange', width=0.4, size=1.3)+
   ylim(c(0,1))+
-  xlab('Task difficutly (stimulus2/stimulus1)')+
+  xlab('Task difficulty (stimulus2/stimulus1)')+
   ylab('Performance')+
   ggtitle('Performance by difficulty')+
   theme_classic()
@@ -84,5 +84,5 @@ graphdata %>%
   ylim(c(-0.1,0.1))+
   ggtitle('Performance (3alternatives-2alternatives)')+
   ylab('Performance 3alt-2alt')+
-  xlab('Task difficutly (stimulus2/stimulus1)')+
+  xlab('Task difficulty (stimulus2/stimulus1)')+
   theme_classic()
