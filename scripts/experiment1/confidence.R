@@ -42,7 +42,7 @@ data %>%
   ggtitle('Confidence by the number alternatives')+
   theme_classic()
 
-####---- performance 3 alternatives - 2 alternatives ----####
+####---- confidence 3 alternatives - 2 alternatives ----####
 
 levels <- sort(unique(data$StimVal))
 nsubj  <- max(data$Nsujeto)
