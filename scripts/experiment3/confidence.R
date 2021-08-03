@@ -54,9 +54,9 @@ for(i in 1:nsubj){
   temp <- c()
   
   
-  for(k in levels){
-    indx3 <- which(subj$distance_ratio==k & subj$Nalternativas==3)
-    indx2 <-  which(subj$distance_ratio==k & subj$Nalternativas==2)
+  for(j in levels){
+    indx3 <- which(subj$distance_ratio==j & subj$Nalternativas==3)
+    indx2 <-  which(subj$distance_ratio==j & subj$Nalternativas==2)
     temp <- c(temp, mean(subj[indx3,]$Confidence)-mean(subj[indx2,]$Confidence))
   }
   
