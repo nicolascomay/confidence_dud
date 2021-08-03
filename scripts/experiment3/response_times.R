@@ -2,7 +2,7 @@ library(tidyverse)
 
 # -------------------------------------------------------------------------------------------------
 
-data <- read.csv2('yourpath/experiment3.csv')
+data <- read.csv2('data_experiment3.csv')
 data$Correct = as.logical(data$Correct)
 data <- as_tibble(data)
 
