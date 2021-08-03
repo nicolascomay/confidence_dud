@@ -50,15 +50,13 @@ conf_data <- matrix(NA, nsubj, 5) # 5 levels of difficulty
 
 for(i in 1:nsubj){
   subj <- data[data$Nsujeto==i,]
-  temp <- c()
+  temp <- c()  
   
-  
-  for(k in levels){
-    indx3 <- which(subj$StimVal==k & subj$Nalternativas==3)  ## change here to see the subtraction between N and 2 alt
-    indx2 <-  which(subj$StimVal==k & subj$Nalternativas==2)
+  for(j in levels){
+    indx3 <- which(subj$StimVal==j & subj$Nalternativas==3)  ## change here to see the subtraction between N and 2 alt
+    indx2 <-  which(subj$StimVal==j & subj$Nalternativas==2)
     temp <- c(temp, mean(subj[indx3,]$Confidence)-mean(subj[indx2,]$Confidence))
   }
-  
   
   conf_data[i,] <- temp
   
