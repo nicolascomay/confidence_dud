@@ -1,187 +1,89 @@
-library(MASS)
-library(lestat)
-library(ggplot2)
-library(readxl)
+library(tidyverse)
 
 # -------------------------------------------------------------------------------------------------
 
-data <- read_xlsx('yourpath/data_experiment2.xlsx')
+data <- read.csv2('data_experiment2.csv')
+data <- as_tibble(data)
 data$Correct = as.logical(data$Correct)
 
 # ----------------------------------------------------------------------------------------------------
 
-##################################################
-## confidence as a function of 2nd figure sizes ##
-##################################################
+####---- confidence by difficulty ----####
 
-data_2alt <- data[data$Nalternativas ==2,] # 2 alternatives only
-data_3alt <- data[data$Nalternativas ==3,] # 3 alternatives only
-
-conf_prop <- function(data){
-  # this function returns a vector with mean confidence for each level of difficulty
-  
-  listaprop <- sort(unique(data$StimVal))  
-  confprop  <- rep(NA, length(listaprop))
-  
-  for(i in seq_along(listaprop)){
-    select_prop <- data[data$StimVal == listaprop[i],]
-    confprop[i] <- mean(select_prop$Confidence)
-  }
-  return(confprop) 
-}
-
-sujetos_conf_prop07 <- c()
-sujetos_conf_prop08 <- c()
-sujetos_conf_prop09 <- c()
-sujetos_conf_prop93 <- c()
-sujetos_conf_prop95 <- c()
-for(i in 1:max(data$Nsujeto)){    
-  sujeto <- data[data$Nsujeto == i,] # changing here and in the loop you can see data for 2 or 3 alternatives separately
-  sujetos_conf_prop07 <- c(sujetos_conf_prop07, conf_prop(sujeto)[1])
-  sujetos_conf_prop08 <- c(sujetos_conf_prop08, conf_prop(sujeto)[2])
-  sujetos_conf_prop09 <- c(sujetos_conf_prop09, conf_prop(sujeto)[3])
-  sujetos_conf_prop93 <- c(sujetos_conf_prop93, conf_prop(sujeto)[4])
-  sujetos_conf_prop95 <- c(sujetos_conf_prop95, conf_prop(sujeto)[5])
-}
-
-confse07 <- mean_se(sujetos_conf_prop07)
-confse08 <- mean_se(sujetos_conf_prop08)
-confse09 <- mean_se(sujetos_conf_prop09)
-confse93 <- mean_se(sujetos_conf_prop93)
-confse95 <- mean_se(sujetos_conf_prop95)
-
-conf_sujetos <- data.frame( names = c('0.7','0.8', '0.9','0.93','0.95'),
-                            values = c(mean(sujetos_conf_prop07), mean(sujetos_conf_prop08), mean(sujetos_conf_prop09), mean(sujetos_conf_prop93), mean(sujetos_conf_prop95)))
-
-# plot
-
-ggplot(conf_sujetos)+
-  geom_bar(aes(x=names, y = values), stat = 'identity', fill = rgb(0,0.77,0))+
-  geom_errorbar(aes(x=names, ymin = c(confse07$ymin, confse08$ymin, confse09$ymin, confse93$ymin, confse95$ymin), ymax = c(confse07$ymax, confse08$ymax, confse09$ymax, confse93$ymax, confse95$ymax)), width = 0.4, col = 'orange', size = 1.3)+
-  ggtitle('Confidence as a function of task difficulty')+
+data %>%
+  group_by(Nsujeto, StimVal) %>%  
+  summarize(conf = mean(Confidence)) %>% 
+  ggplot(aes(x=as.factor(StimVal),
+             y=conf))+
+  stat_summary(fun.data = mean_se,
+               geom='bar', fill='darkgreen')+
+  stat_summary(fun.data = mean_se,
+               geom='errorbar', color='orange', width=0.4, size=1.3)+
+  ylim(c(0,1))+
   xlab('Task difficulty (stimulus2/stimulus1)')+
   ylab('Confidence')+
-  ylim(c(0,1))
-# --------------------------------------------------------------------------------------------------
+  ggtitle('Confidence by difficulty')+
+  theme_classic()
 
-#####################
-## mean confidence ##
-#####################
+####---- confidence by amount of alternatives ----####
 
-confianza_promedio <- function(data){
-  # this function returns a vector with the mean confidence for each subject
-  
-  cantsuj <- max(data$Nsujeto) 
-  confianza <- rep(NA, cantsuj)
-  
-  for(i in 1:cantsuj){
-    sujeto <- data[data$Nsujeto == i,]
-    confianza[i] <- mean(sujeto$Confidence)
-  }
-  
-  return(confianza)
-}
-
-# ------------------------------------------------------------------------------------
-
-######################################################
-## confidence dissociated by number of alternatives ##
-######################################################
-
-confNalt <- function(data, alternativas){
-  # the function receives as a second parameter the number of alternatives (2, 3, 4 or 5) and returns
-  # the mean confidence with that amount of alternatives
-  
-  cantsuj   <- max(data$Nsujeto)
-  confianza <- rep(NA, cantsuj)
-  dataNalt  <- data[data$Nalternativas == alternativas,] 
-  
-  for(i in 1:cantsuj){
-    sujeto <- dataNalt[dataNalt$Nsujeto == i,]
-    confianza[i] <- mean(sujeto$Confidence)
-  }
-  return(confianza)
-}
-
-conf_n2 <- mean_se(confNalt(data,2))
-conf_n3 <- mean_se(confNalt(data,3))
-conf_n4 <- mean_se(confNalt(data,4))
-conf_n5 <- mean_se(confNalt(data,5))
-
-confidenceN <- data.frame( names = c('2', '3', '4', '5'),
-                           values = c(mean(confNalt(data,2)), mean(confNalt(data,3)),
-                                      mean(confNalt(data,4)), mean(confNalt(data,5))))
-# plot
-
-ggplot(confidenceN)+
-  geom_bar(aes(x=names, y=values), stat = 'identity', fill = rgb(0,0.77,0))+
-  geom_errorbar(aes(x=names, ymin = c(conf_n2$ymin, conf_n3$ymin, conf_n4$ymin, conf_n5$ymin), ymax = c(conf_n2$ymax, conf_n3$ymax, conf_n4$ymax, conf_n5$ymax)), width = 0.4, col = 'orange', size = 1.3)+
-  ggtitle('Confidence according to the number of alternatives')+
-  xlab('Alternatives')+
+data %>%
+  group_by(Nsujeto, Nalternativas) %>%
+  summarize(conf=mean(Confidence)) %>%
+  ggplot(aes(x=as.factor(Nalternativas),
+             y=conf))+
+  stat_summary(fun.data = mean_se,
+               geom='bar', fill='darkgreen')+
+  stat_summary(fun.data = mean_se,
+               geom='errorbar', color='orange', width=0.4, size=1.3)+
+  ylim(c(0,1))+
+  xlab('Number of alternatives')+
   ylab('Confidence')+
-  ylim(c(0,1))
+  ggtitle('Confidence by the number alternatives')+
+  theme_classic()
 
-# -------------------------------------------------------------------------------------
+####---- confidence N alternatives - 2 alternatives ----####
 
-##################################################################################
-## Subtraction: confidence with N alternatives - confidence with 2 alternatives ##
-##################################################################################
+levels <- sort(unique(data$StimVal))
+nsubj  <- max(data$Nsujeto)
+conf_data <- matrix(NA, nsubj, 5) # 5 levels of difficulty
 
-data_correct <- data[data$Correct == TRUE,]    # correct trials only
-data_incorrect <- data[data$Correct == FALSE,] # incorrect trials only
-
-resta_conf <- function(data, area2prop){
-  # this function receives the data and size proportions of the second figure (task difficulty)
-  # and returns the subtraction between confidence with N alternatives and confidence with 2 
-  # alternatives for that level of difficulty.
+for(i in 1:nsubj){
+  subj <- data[data$Nsujeto==i,]
+  temp <- c()
   
-  prop_alt3  <- data[data$StimVal == area2prop & data$Nalternativas == 3,] # here you can change the number of alternatives you want to perform the subtraction
-  confianza3 <- mean(prop_alt3$Confidence)
   
-  prop_alt2  <- data[data$StimVal == area2prop & data$Nalternativas == 2,]
-  confianza2 <- mean(prop_alt2$Confidence)
+  for(k in levels){
+    indx3 <- which(subj$StimVal==k & subj$Nalternativas==3)  ## change here to see the subtraction between N and 2 alt
+    indx2 <-  which(subj$StimVal==k & subj$Nalternativas==2)
+    temp <- c(temp, mean(subj[indx3,]$Confidence)-mean(subj[indx2,]$Confidence))
+  }
   
-  resta <- confianza3 - confianza2
   
-  return(resta)}
-
-resta_conf_prop07 <- c()
-resta_conf_prop08 <- c()
-resta_conf_prop09 <- c()
-resta_conf_prop93 <- c()
-resta_conf_prop95 <- c()
-for(i in 1:max(data$Nsujeto)){  # here and inside the loop you can change to data_correct or data_incorrect to see the subtraction for correct and incorrect trials   
-  sujeto <- data[data$Nsujeto == i,]
-  resta_conf_prop07 <- c(resta_conf_prop07, resta_conf(sujeto,0.7))
-  resta_conf_prop08 <- c(resta_conf_prop08, resta_conf(sujeto,0.8))
-  resta_conf_prop09 <- c(resta_conf_prop09, resta_conf(sujeto,0.9))
-  resta_conf_prop93 <- c(resta_conf_prop93, resta_conf(sujeto,0.93))
-  resta_conf_prop95 <- c(resta_conf_prop95, resta_conf(sujeto,0.95))
+  conf_data[i,] <- temp
+  
 }
 
-resta_conf_prop07 <- na.omit(resta_conf_prop07)
-resta_conf_prop08 <- na.omit(resta_conf_prop08)
-resta_conf_prop09 <- na.omit(resta_conf_prop09)
-resta_conf_prop93 <- na.omit(resta_conf_prop93)
-resta_conf_prop95 <- na.omit(resta_conf_prop95)
-
-resta_confse07 <- mean_se(resta_conf_prop07)
-resta_confse08 <- mean_se(resta_conf_prop08)
-resta_confse09 <- mean_se(resta_conf_prop09)
-resta_confse93 <- mean_se(resta_conf_prop93)
-resta_confse95 <- mean_se(resta_conf_prop95)
-
-resta_conf_sujetos <- data.frame( names = c('0.7','0.8', '0.9','0.93','0.95'),
-                                  values = c(mean(resta_conf_prop07), mean(resta_conf_prop08), mean(resta_conf_prop09), mean(resta_conf_prop93), mean(resta_conf_prop95)))
+# standard error of mean 
+level1 <- mean_se(conf_data[,1])
+level2 <- mean_se(conf_data[,2])
+level3 <- mean_se(conf_data[,3])
+level4 <- mean_se(conf_data[,4])
+level5 <- mean_se(conf_data[,5])
 
 # plot
+graphdata <- data.frame(names = levels, 
+                        values = colMeans(conf_data))
 
-ggplot(resta_conf_sujetos, aes(x=names, y = values))+
-  geom_bar(stat = 'identity', fill = rgb(0,0.77,0))+
-  geom_errorbar(aes(x=names, ymin = c(resta_confse07$ymin, resta_confse08$ymin, resta_confse09$ymin, resta_confse93$ymin, resta_confse95$ymin), ymax = c(resta_confse07$ymax, resta_confse08$ymax, resta_confse09$ymax, resta_confse93$ymax, resta_confse95$ymax)), width = 0.4, col = 'orange', size = 1.3)+
-  ggtitle('Confidence (N alternatives - 2 alternatives)')+
+graphdata %>%
+  ggplot(aes(x=as.factor(levels),y=values))+
+  geom_col(fill='darkgreen')+
+  geom_errorbar(aes(x=as.factor(levels), ymin=c(level1$ymin, level2$ymin, level3$ymin,
+                                                level4$ymin, level5$ymin), 
+                    ymax=c(level1$ymax,level2$ymax,level3$ymax, level4$ymax, level5$ymax)),
+                width=0.4, size=1.3, color='orange')+
+  ylim(c(-0.1,0.1))+
+  ggtitle('Confidence (Nalternatives-2alternatives)')+
+  ylab('Confidence Nalt-2alt')+
   xlab('Task difficulty (stimulus2/stimulus1)')+
-  ylab('Confidence')+
-  ylim(c(-0.11,0.1)) # note: if you use incorrect trials error bars will be very large so you'll have to rearrange the y limits.
-
-# ------------------------------------------------------------------------------
+  theme_classic()
