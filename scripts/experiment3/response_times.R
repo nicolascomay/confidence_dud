@@ -8,7 +8,6 @@ data <- as_tibble(data)
 
 # ----------------------------------------------------------------------------------------------------
 
-
 ####---- rt (type 1 task) by difficulty ----####
 
 data %>%
@@ -52,13 +51,11 @@ for(i in 1:nsubj){
   subj <- data[data$Nsujeto==i,]
   temp <- c()
   
-  
-  for(k in levels){
-    indx3 <- which(subj$distance_ratio==k & subj$Nalternativas==3)
-    indx2 <-  which(subj$distance_ratio==k & subj$Nalternativas==2)
+  for(j in levels){
+    indx3 <- which(subj$distance_ratio==j & subj$Nalternativas==3)
+    indx2 <-  which(subj$distance_ratio==j & subj$Nalternativas==2)
     temp <- c(temp, mean(subj[indx3,]$RT_type1)-mean(subj[indx2,]$RT_type1))
   }
-  
   
   rt1_data[i,] <- temp
   
@@ -86,7 +83,6 @@ graphdata %>%
 
 #------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------
-
 
 ####---- rt (type 2 task) by difficulty ----####
 
@@ -129,14 +125,12 @@ for(i in 1:nsubj){
   subj <- data[data$Nsujeto==i,]
   temp <- c()
   
-  
-  for(k in levels){
-    indx3 <- which(subj$distance_ratio==k & subj$Nalternativas==3)
-    indx2 <-  which(subj$distance_ratio==k & subj$Nalternativas==2)
+  for(j in levels){
+    indx3 <- which(subj$distance_ratio==j & subj$Nalternativas==3)
+    indx2 <-  which(subj$distance_ratio==j & subj$Nalternativas==2)
     temp <- c(temp, mean(subj[indx3,]$RT_Confidence)-mean(subj[indx2,]$RT_Confidence))
   }
-  
-  
+   
   rt2_data[i,] <- temp
   
 }
