@@ -1,225 +1,132 @@
-library(MASS)
-library(lestat)
-library(ggplot2)
-library(readxl)
+library(tidyverse)
 
 # -------------------------------------------------------------------------------------------------
 
-data <- read_xlsx('yourpath/data_experiment2.xlsx')
+data <- read.csv2('data_experiment2.csv')
+data <- as_tibble(data)
 data$Correct = as.logical(data$Correct)
 
 # ----------------------------------------------------------------------------------------------------
 
-##################################
-## Response times - type 1 task ##
-##################################
+####---- response times (type 1 task) by difficulty ----####
 
-type1_rt <- function(data){
-  # this function returns a vector with response times in type 1 task for each level of difficulty
+data %>%
+  group_by(Nsujeto, StimVal) %>%  
+  summarize(rt_type1 = mean(RT_type1)) %>% 
+  ggplot(aes(x=as.factor(StimVal),
+             y=rt_type1))+
+  stat_summary(fun.data = mean_se,
+               geom='bar', fill='darkgreen')+
+  stat_summary(fun.data = mean_se,
+               geom='errorbar', color='orange', width=0.4, size=1.3)+
+  xlab('Task difficulty (stimulus2/stimulus1)')+
+  ylab('RT (type 1)')+
+  ggtitle('Response times (type 1 task) by difficulty')+
+  theme_classic()
+
+####---- rt (type 1) N alternatives - 2 alternatives ----####
+
+levels <- sort(unique(data$StimVal))
+nsubj  <- max(data$Nsujeto)
+rt1_data <- matrix(NA, nsubj, 5) # 5 levels of difficulty
+
+for(i in 1:nsubj){
+  subj <- data[data$Nsujeto==i,]
+  temp <- c()
   
-  listaprop <- sort(unique(data$StimVal))
-  rt_prop   <- rep(NA, length(listaprop))
   
-  for(i in seq_along(listaprop)){
-    datosProp  <- data[data$StimVal == listaprop[i],]
-    rt_prop[i] <- mean(datosProp$RT_type1)
-    
+  for(j in levels){
+    indx3 <- which(subj$StimVal==j & subj$Nalternativas==3) # change here in order to see the subtraction between Nalt and 2alt
+    indx2 <-  which(subj$StimVal==j & subj$Nalternativas==2)
+    temp <- c(temp, mean(subj[indx3,]$RT_type1)-mean(subj[indx2,]$RT_type1))
   }
   
-  return(rt_prop)
+  rt1_data[i,] <- temp
+  
 }
 
-rt_prop07 <- c()
-rt_prop08 <- c()
-rt_prop09 <- c()
-rt_prop93 <- c()
-rt_prop95 <- c()
-for(i in 1:max(data$Nsujeto)){
-  sujeto <- data[data$Nsujeto == i,]
-  rt_prop07 <- c(rt_prop07, type1_rt(sujeto)[1])
-  rt_prop08 <- c(rt_prop08, type1_rt(sujeto)[2])
-  rt_prop09 <- c(rt_prop09, type1_rt(sujeto)[3])
-  rt_prop93 <- c(rt_prop93, type1_rt(sujeto)[4])
-  rt_prop95 <- c(rt_prop95, type1_rt(sujeto)[5])
-}
-
-rtse07 <- mean_se(rt_prop07)
-rtse08 <- mean_se(rt_prop08)
-rtse09 <- mean_se(rt_prop09)
-rtse93 <- mean_se(rt_prop93)
-rtse95 <- mean_se(rt_prop95)
-
-rt_sujetos <- data.frame( names = c('0.7','0.8', '0.9','0.93','0.95'),
-                          values = c(mean(rt_prop07), mean(rt_prop08), mean(rt_prop09), mean(rt_prop93), mean(rt_prop95)))
+# standard error of mean 
+level1 <- mean_se(rt1_data[,1])
+level2 <- mean_se(rt1_data[,2])
+level3 <- mean_se(rt1_data[,3])
+level4 <- mean_se(rt1_data[,4])
+level5 <- mean_se(rt1_data[,5])
 
 # plot
+graphdata <- data.frame(names = levels, 
+                        values = colMeans(rt1_data))
 
-ggplot(rt_sujetos)+
-  geom_bar(aes(x=names, y = values), stat = 'identity', fill = rgb(0,0.77,0))+
-  geom_errorbar(aes(x=names, ymin = c(rtse07$ymin, rtse08$ymin, rtse09$ymin, rtse93$ymin, rtse95$ymin), ymax = c(rtse07$ymax, rtse08$ymax, rtse09$ymax, rtse93$ymax, rtse95$ymax)), width = 0.4, col = 'orange', size = 1.3)+
-  ggtitle('Response times (type 1 task) as a function of task difficulty')+
+graphdata %>%
+  ggplot(aes(x=as.factor(levels),y=values))+
+  geom_col(fill='darkgreen')+
+  geom_errorbar(aes(x=as.factor(levels), ymin=c(level1$ymin, level2$ymin, level3$ymin,
+                                                level4$ymin, level5$ymin), 
+                    ymax=c(level1$ymax,level2$ymax,level3$ymax, level4$ymax, level5$ymax)),
+                width=0.4, size=1.3, color='orange')+
+  ggtitle('Response times (type 1 task) Nalternatives-2alternatives')+
+  ylab('RT Nalt-2alt')+
   xlab('Task difficulty (stimulus2/stimulus1)')+
-  ylab('Response time (ms)')+
-  ylim(c(0,2500))
+  theme_classic()
 
-##################################
-## Response times - type 2 task ##
-##################################
+#---------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
 
-confidence_RT <- function(data){
-  # this function returns a vector with response times in type 2 task for each level of difficulty
+####---- response times (type 2 task) by difficulty ----####
+
+data %>%
+  group_by(Nsujeto, StimVal) %>%  
+  summarize(rt_conf = mean(RT_Confidence)) %>% 
+  ggplot(aes(x=as.factor(StimVal),
+             y=rt_conf))+
+  stat_summary(fun.data = mean_se,
+               geom='bar', fill='darkgreen')+
+  stat_summary(fun.data = mean_se,
+               geom='errorbar', color='orange', width=0.4, size=1.3)+
+  xlab('Task difficulty (stimulus2/stimulus1)')+
+  ylab('RT (type 2)')+
+  ggtitle('Response times (type 2 task) by difficulty')+
+  theme_classic()
+
+####---- rt (type 2) 3 alternatives - 2 alternatives ----####
+
+levels <- sort(unique(data$StimVal))
+nsubj  <- max(data$Nsujeto)
+rt2_data <- matrix(NA, nsubj, 5) # 5 levels of difficulty
+
+for(i in 1:nsubj){
+  subj <- data[data$Nsujeto==i,]
+  temp <- c()
   
-  listaprop <- sort(unique(data$StimVal))
-  rt_prop   <- rep(NA, length(listaprop))
   
-  for(i in seq_along(listaprop)){
-    datosProp  <- data[data$StimVal == listaprop[i],]
-    rt_prop[i] <- mean(datosProp$RT_Confidence)
-    
+  for(j in levels){
+    indx3 <- which(subj$StimVal==j & subj$Nalternativas==3) # change here in order to see the subtraction between Nalt and 2alt
+    indx2 <-  which(subj$StimVal==j & subj$Nalternativas==2)
+    temp <- c(temp, mean(subj[indx3,]$RT_Confidence)-mean(subj[indx2,]$RT_Confidence))
   }
   
-  return(rt_prop)
+  rt2_data[i,] <- temp
+  
 }
 
-
-rtconf_prop07 <- c()
-rtconf_prop08 <- c()
-rtconf_prop09 <- c()
-rtconf_prop93 <- c()
-rtconf_prop95 <- c()
-for(i in 1:max(data$Nsujeto)){
-  sujeto <- data[data$Nsujeto == i,]
-  rtconf_prop07 <- c(rtconf_prop07, confidence_RT(sujeto)[1])
-  rtconf_prop08 <- c(rtconf_prop08, confidence_RT(sujeto)[2])
-  rtconf_prop09 <- c(rtconf_prop09, confidence_RT(sujeto)[3])
-  rtconf_prop93 <- c(rtconf_prop93, confidence_RT(sujeto)[4])
-  rtconf_prop95 <- c(rtconf_prop95, confidence_RT(sujeto)[5])
-}
-
-rtconfse07 <- mean_se(rtconf_prop07)
-rtconfse08 <- mean_se(rtconf_prop08)
-rtconfse09 <- mean_se(rtconf_prop09)
-rtconfse93 <- mean_se(rtconf_prop93)
-rtconfse95 <- mean_se(rtconf_prop95)
-
-rtconf_sujetos <- data.frame( names = c('0.7','0.8', '0.9','0.93','0.95'),
-                              values = c(mean(rtconf_prop07), mean(rtconf_prop08), mean(rtconf_prop09), mean(rtconf_prop93), mean(rtconf_prop95)))
+# standard error of mean 
+level1 <- mean_se(rt2_data[,1])
+level2 <- mean_se(rt2_data[,2])
+level3 <- mean_se(rt2_data[,3])
+level4 <- mean_se(rt2_data[,4])
+level5 <- mean_se(rt2_data[,5])
 
 # plot
+graphdata <- data.frame(names = levels, 
+                        values = colMeans(rt2_data))
 
-ggplot(rtconf_sujetos)+
-  geom_bar(aes(x=names, y = values), stat = 'identity', fill = rgb(0,0.77,0))+
-  geom_errorbar(aes(x=names, ymin = c(rtconfse07$ymin, rtconfse08$ymin, rtconfse09$ymin, rtconfse93$ymin, rtconfse95$ymin), ymax = c(rtconfse07$ymax, rtconfse08$ymax, rtconfse09$ymax, rtconfse93$ymax, rtconfse95$ymax)), width = 0.4, col = 'orange', size = 1.3)+
-  ggtitle('Response times (type 2 task) as a function of task difficulty')+
+graphdata %>%
+  ggplot(aes(x=as.factor(levels),y=values))+
+  geom_col(fill='darkgreen')+
+  geom_errorbar(aes(x=as.factor(levels), ymin=c(level1$ymin, level2$ymin, level3$ymin,
+                                                level4$ymin, level5$ymin), 
+                    ymax=c(level1$ymax,level2$ymax,level3$ymax, level4$ymax, level5$ymax)),
+                width=0.4, size=1.3, color='orange')+
+  ggtitle('Response times (type 2 task) Nalternatives-2alternatives')+
+  ylab('RT Nalt-2alt')+
   xlab('Task difficulty (stimulus2/stimulus1)')+
-  ylab('Response time (ms)')+
-  ylim(c(0,2500))
-
-#-----------------------------------------------------------------------------
-
-########################################################################################################
-## Subtraction (type 1 task): response times with N alternatives - response times with 2 alternatives ##
-########################################################################################################
-
-
-resta_rt1 <- function(data, area2prop){
-  # this function receives the data and size proportions of the second figure (task difficulty)
-  # and returns the subtraction between mean response times with N alternatives and mean response times with 2 
-  # alternatives for that level of difficulty. (size discrimination task)
-  
-  prop_alt3  <- data[data$StimVal == area2prop & data$Nalternativas == 3,] # here you can change the number in order to analyze the response times on for each number of alternatives (3, 4 or 5) 
-  type1_rt3 <- mean(prop_alt3$RT_type1)
-  
-  prop_alt2  <- data[data$StimVal == area2prop & data$Nalternativas == 2,]
-  type1_rt2 <- mean(prop_alt2$RT_type1)
-  
-  resta <- type1_rt3 - type1_rt2
-  
-  return(resta)}
-
-restart1_prop07 <- c()
-restart1_prop08 <- c()
-restart1_prop09 <- c()
-restart1_prop93 <- c()
-restart1_prop95 <- c()
-for(i in 1:max(data$Nsujeto)){
-  sujeto <- data[data$Nsujeto == i,]
-  restart1_prop07 <- c(restart1_prop07, resta_rt1(sujeto,0.7))
-  restart1_prop08 <- c(restart1_prop08, resta_rt1(sujeto,0.8))
-  restart1_prop09 <- c(restart1_prop09, resta_rt1(sujeto,0.9))
-  restart1_prop93 <- c(restart1_prop93, resta_rt1(sujeto,0.93))
-  restart1_prop95 <- c(restart1_prop95, resta_rt1(sujeto,0.95))
-}
-
-resta_rt1se07 <- mean_se(restart1_prop07)
-resta_rt1se08 <- mean_se(restart1_prop08)
-resta_rt1se09 <- mean_se(restart1_prop09)
-resta_rt1se93 <- mean_se(restart1_prop93)
-resta_rt1se95 <- mean_se(restart1_prop95)
-
-restart1_sujetos <- data.frame( names = c('0.7','0.8', '0.9','0.93','0.95'),
-                                values = c(mean(restart1_prop07), mean(restart1_prop08), mean(restart1_prop09), mean(restart1_prop93), mean(restart1_prop95)))
-
-# plot
-
-ggplot(restart1_sujetos, aes(x=names, y = values))+
-  geom_bar(stat = 'identity', fill = rgb(0,0.77,0))+
-  geom_errorbar(aes(x=names, ymin = c(resta_rt1se07$ymin, resta_rt1se08$ymin, resta_rt1se09$ymin, resta_rt1se93$ymin, resta_rt1se95$ymin), ymax = c(resta_rt1se07$ymax, resta_rt1se08$ymax, resta_rt1se09$ymax, resta_rt1se93$ymax, resta_rt1se95$ymax)), width = 0.4, col = 'orange', size = 1.3)+
-  ggtitle('Response times (type 1 task): N alternatives - 2 alternatives')+
-  xlab('Task difficulty (stimulus2/stimulus1)')+
-  ylab('Response time (ms)')+
-  ylim(c(-500, 500))
-
-########################################################################################################
-## Subtraction (type 2 task): response times with N alternatives - response times with 2 alternatives ##
-########################################################################################################
-
-resta_rt2 <- function(data, area2prop){
-  # this function receives the data and size proportions of the second figure (task difficulty)
-  # and returns the subtraction between mean response times with 3 alternatives and mean response times with 2 
-  # alternatives for that level of difficulty. (confidence report)
-  
-  prop_alt3  <- data[data$StimVal == area2prop & data$Nalternativas == 3,] # here you can change the number in order to analyze the response times on for each number of alternatives (3, 4 or 5) 
-  type2_rt3 <- mean(prop_alt3$RT_Confidence)
-  
-  prop_alt2  <- data[data$StimVal == area2prop & data$Nalternativas == 2,]
-  type2_rt2 <- mean(prop_alt2$RT_Confidence)
-  
-  resta <- type2_rt3 - type2_rt2
-  
-  return(resta)}
-
-restart2_prop07 <- c()
-restart2_prop08 <- c()
-restart2_prop09 <- c()
-restart2_prop93 <- c()
-restart2_prop95 <- c()
-for(i in 1:max(data$Nsujeto)){
-  sujeto <- data[data$Nsujeto == i,]
-  restart2_prop07 <- c(restart2_prop07, resta_rt2(sujeto,0.7))
-  restart2_prop08 <- c(restart2_prop08, resta_rt2(sujeto,0.8))
-  restart2_prop09 <- c(restart2_prop09, resta_rt2(sujeto,0.9))
-  restart2_prop93 <- c(restart2_prop93, resta_rt2(sujeto,0.93))
-  restart2_prop95 <- c(restart2_prop95, resta_rt2(sujeto,0.95))
-}
-
-resta_rt2se07 <- mean_se(restart2_prop07)
-resta_rt2se08 <- mean_se(restart2_prop08)
-resta_rt2se09 <- mean_se(restart2_prop09)
-resta_rt2se93 <- mean_se(restart2_prop93)
-resta_rt2se95 <- mean_se(restart2_prop95)
-
-restart2_sujetos <- data.frame( names = c('0.7','0.8', '0.9','0.93','0.95'),
-                                values = c(mean(restart2_prop07), mean(restart2_prop08), mean(restart2_prop09), mean(restart2_prop93), mean(restart2_prop95)))
-
-# plot
-
-ggplot(restart2_sujetos, aes(x=names, y = values))+
-  geom_bar(stat = 'identity', fill = rgb(0,0.77,0))+
-  geom_errorbar(aes(x=names, ymin = c(resta_rt2se07$ymin, resta_rt2se08$ymin, resta_rt2se09$ymin, resta_rt2se93$ymin, resta_rt2se95$ymin), ymax = c(resta_rt2se07$ymax, resta_rt2se08$ymax, resta_rt2se09$ymax, resta_rt2se93$ymax, resta_rt2se95$ymax)), width = 0.4, col = 'orange', size = 1.3)+
-  ggtitle('Response times (type 2 task): N alternatives - 2 alternatives')+
-  xlab('Task difficulty (stimulus2/stimulus1)')+
-  ylab('Response time (ms)')+
-  ylim(c(-500, 500))
-
-
+  theme_classic()
