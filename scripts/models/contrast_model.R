@@ -54,7 +54,7 @@ simulate_trial <- function(s,A1,A2,A3=F,a){
   ## decision tipo 2
   o <- order(q, decreasing = T)
   if(A3){
-    confidence <- (q[o[1]] - q[o[2]]) + (q[o[1]] - q[o[3]]) # pairwase model
+    confidence <- (q[o[1]] - q[o[2]]) + (q[o[1]] - q[o[3]]) # contrast model (pairwise comparisons)
   }
   else{
     confidence <- q[o[1]] - q[o[2]]} # equal to diff model
