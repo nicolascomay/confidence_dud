@@ -1,14 +1,16 @@
 # confidence_dud
 
-This repository contains all the experimental data (folder "data") and scripts (folder "scripts") used for the study "_Implausible alternatives paradoxically increase confidence in a perceptual decision_" (Comay, Della Bella, Sigman, Solovey & Barttfeld; 2021)
+This repository contains all the experimental data (folder "data") and scripts (folder "scripts") used for the study "_Implausible alternatives paradoxically increase confidence in a perceptual decision_" (Comay, Della Bella, Lamberti, Sigman, Solovey & Barttfeld; 2021)
 
 ## Usage
 
-In order to run the scripts you'll have to download the experimental data (is in folder "data"). All scripts contain, at the beginning, a line where you will have to specify the path to where you have the experimental data on your computer. 
+In order to run the scripts you'll have to download the experimental data. All scripts are in R language, and in order to be runned you will need to install 3 libraries: "tidyverse", "DirichletReg" and "scales". To do that, simply type in the R console the command "_install.packages()_" with the name of the library as a parameter. 
 
 ## How is data organized 
 
-In folder "data" you will find the data for both experiments. Rows are trials, and the columns are organized as follows:
+In folder "data" you will find the data for the 3 experiments. Rows are trials, and the columns are organized as follows:
+
+### Experiments 1 & 2
 
 - _n3SquareOrCircle:_ indicates if the 3rd alternative was a square (1), a circle (2) or was not present (0).
 - _BiggerCircleOrSquare:_ indicates if the biggest figure was a circle (1) or a square (2)
@@ -34,10 +36,28 @@ In folder "data" you will find the data for both experiments. Rows are trials, a
 - _Gender:_ a variable for gender identification of the participant. f=female; m=male; NoBinario=non binary gender identifications.
 - _Age:_ subject's age.
 
-_Note: data from experiment 2 contains more columns because it had more alternatives. For example, there are variables called n4SquareOrCircle and n5SquareOrCircle, indicating if the fourth and fifth alternative was a square (1) or a circle (2) respectively (and 0 if it was not shown). The same is for the other variables, with a 3, 4 or 5 indicating to which alternative refers._
+_Note: data from experiment 2 contains more columns because it had more alternatives. For example, there are variables called n4SquareOrCircle and n5SquareOrCircle, indicating if the fourth and fifth alternative was a square (1) or a circle (2) respectively (and 0 if it was not shown). The same is for the other variables, with a 3, 4 or 5 indicating to which alternative refers._ 
+
+### Experiment 3
+
+- _distance_ratio:_ the distance of the target to the mean of the closest dot cloud. It can take 3 values: 3, 2.5 and 2.1. A value of 2 means that the target is in the middle of the 2 closest clouds.
+- _xtarget:_ x position of target on the screen.
+- _ytarget:_ y position of target on the screen.
+- _sd:_ standard deviation of clouds' dots (60 as in Li & Ma, 2020).
+- _nsamples:_ number of dots on each cloud (375 as in Li & Ma, 2020).
+- _color_nube1:_ index for the color of the cloud 1. 0 = red; 1 = green; 2 = blue.
+- _color_nube2:_ index for the color of the cloud 2. 0 = red; 1 = green; 2 = blue.
+- _color_nube3:_ index for the color of the cloud 3. 0 = red; 1 = green; 2 = blue.
+- _color_buttons1:_ index for the color of the button 1. Is always 0 as button 1 was always red.
+- _color_buttons2:_ index for the color of the button 2. Is always 1 as button 2 was always green.
+- _color_buttons3:_ index for the color of the button 3. Is always 2 as button 3 was always blue.
+- _correct_color:_ the color of the correct cloud.
+- _correct_cloud:_ the number of the correct cloud.
+
+_The rest of de variables are the same as in experiment 1 & 2._
 
 ## Models
-In the 'scripts' folders you'll also find the code for the four models developed for this study: the max model, the diff model, the average-residual model and the contrast model.
+In the 'scripts' folders you'll also find the code that performs the simulations of the 3 models proposed for this study: the max model, the diff model and the contrast model.
 
 ## Contact
 
