@@ -54,7 +54,7 @@ _Note: data from experiment 2 contains more columns because it had more alternat
 - _correct_color:_ the color of the correct cloud.
 - _correct_cloud:_ the number of the correct cloud.
 
-_The rest of de variables are the same as in experiment 1 & 2._
+_The rest of the variables are the same as in experiment 1 & 2._
 
 ## Models
 In the 'scripts' folders you'll also find the code that performs the simulations of the 3 models proposed for this study: the max model, the diff model and the contrast model.
