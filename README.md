@@ -57,9 +57,9 @@ _Note: data from experiment 2 contains more columns because it had more alternat
 _The rest of the variables are the same as in experiment 1 & 2._
 
 ## Models
-In the 'scripts' folders you'll also find the code that performs the simulations of the 3 models proposed for this study: the max model, the diff model and the contrast model.
+In the 'scripts' folders you'll also find the code that performs the model fitting and simulations of the 4 models proposed for this study: the max model, the diff model, the contrast model and the average residual model. The wrapper.R file contains all that is needed to perform the model fitting procedure.
 
 ## Contact
 
-For any doubts or suggestions you can send an e-mail to the corresponding author at nicocomay@gmail.com 
+For any doubts or suggestions you can send an e-mail to the corresponding author at nicolascomay@mi.unc.edu.ar
 
