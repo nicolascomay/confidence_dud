@@ -1,4 +1,4 @@
-simulate.exp <- function(a1, a2, a3, s, alpha, min_d=0, max_d=1, model, data){
+simulate.exp <- function(a1, a2, a3, s, alpha, model, data){
   # function that simulates empirical data according to a model.
   
   # n = number of trials to simulate for each condition (2 or 3 alt)
