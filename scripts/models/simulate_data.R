@@ -5,12 +5,6 @@ simulate.exp <- function(a1, a2, a3, s, alpha, min_d=0, max_d=1, model, data){
   # a1, a2, a3 = size of the alternatives
   # s = sensory noise
   # alpha = decision noise
-  # min_d = min confidence level
-  # max_d = max confidence level
-  
-  # Returns a vector of length 20. First 10 values represent decisions, the rest
-  # represent confidence. First 5 of each represent a 2 alternative context, 
-  # whereas the rest represent a 3 alternative context.
   
   if(model == 'diff'){
     source('diff_model.R')
