@@ -12,9 +12,9 @@ data <- as_tibble(data)
 
 data %>%
   group_by(Nsujeto, StimVal, Nalternativas) %>% 
-  summarize(conf = mean(RT_type1)) %>% 
+  summarize(rt1 = mean(RT_type1)) %>% 
   ggplot(aes(x=as.factor(StimVal),
-             y=conf,
+             y=rt1,
              group=as.factor(Nalternativas)))+
   stat_summary(fun = mean, geom = "line", na.rm=T, lwd=2, 
                col=c(rep('darkgreen',5), rep('orange',5)))+
@@ -30,9 +30,9 @@ data %>%
 
 data %>%
   group_by(Nsujeto, StimVal, Nalternativas) %>% 
-  summarize(conf = mean(RT_Confidence)) %>% 
+  summarize(rtconf = mean(RT_Confidence)) %>% 
   ggplot(aes(x=as.factor(StimVal),
-             y=conf,
+             y=rtconf,
              group=as.factor(Nalternativas)))+
   stat_summary(fun = mean, geom = "line", na.rm=T, lwd=2, 
                col=c(rep('darkgreen',5), rep('orange',5)))+
@@ -49,9 +49,9 @@ data %>%
 ####---- Performance by difficulty & amount of alternatives ----####
 data %>%
   group_by(Nsujeto, StimVal, Nalternativas) %>% 
-  summarize(conf = mean(binary_correct)) %>% 
+  summarize(perf = mean(binary_correct)) %>% 
   ggplot(aes(x=as.factor(StimVal),
-             y=conf,
+             y=perf,
              group=as.factor(Nalternativas)))+
   stat_summary(fun = mean, geom = "line", na.rm=T, lwd=2, 
                col=c(rep('darkgreen',5), rep('orange',5)))+
