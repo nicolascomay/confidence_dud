@@ -1,6 +1,6 @@
 # confidence_dud
 
-This repository contains all the experimental data and scripts used for the study "_Implausible alternatives paradoxically increase confidence in a perceptual decision_" (Comay, Della Bella, Lamberti, Sigman, Solovey & Barttfeld; 2021)
+This repository contains all the experimental data and scripts used for the study "_The presence of irrelevant alternatives paradoxically increases confidence in perceptual decisions_" (Comay, Della Bella, Lamberti, Sigman, Solovey & Barttfeld; 2021)
 
 ## Usage
 
