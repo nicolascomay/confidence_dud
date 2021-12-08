@@ -57,7 +57,7 @@ _Note: data from experiment 2 contains more columns because it had more alternat
 _The rest of the variables are the same as in experiment 1 & 2._
 
 ## Models
-In the 'scripts' folders you'll also find the code that performs the model fitting and simulations of the 4 models proposed for this study: the max model, the diff model, the contrast model and the average residual model. The wrapper.R file contains all that is needed to perform the model fitting procedure.
+In the 'scripts' folder there are 4 sub-foulders. First 3 contains the source html/js code of the experiments, the .jzip archives to directly upload the experiments to JATOS and scripts that reproduce the main figures of the paper. In sub-folder 'models' you'll find the code that performs the model fitting and simulations of the 4 models proposed for this study: the max model, the diff model, the contrast model and the average residual model. In order to perform model fitting simply run the wrapper.R file.
 
 ## Contact
 
