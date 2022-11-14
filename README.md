@@ -56,7 +56,7 @@ _Note: data from experiment 2 contains more columns because it had more alternat
 - _correct_color:_ the color of the correct cloud.
 - _correct_cloud:_ the number of the correct cloud.
 
-_The rest of the variables are the same as in experiment 1 & 2._
+_The rest of the variables are the same as in experiment 1, 2 & 4._
 
 ## Contact
 
