@@ -40,7 +40,7 @@ In folder "data" you will find the data for the 3 experiments. Rows are trials, 
 
 _Note: data from experiment 2 contains more columns because it had more alternatives. For example, there are variables called n4SquareOrCircle and n5SquareOrCircle, indicating if the fourth and fifth alternative was a square (1) or a circle (2) respectively (and 0 if it was not shown). The same is for the other variables, with a 3, 4 or 5 indicating to which alternative refers._ 
 
-#### Experiment 3 & 5
+#### Experiments 3 & 5
 
 - _distance_ratio:_ the distance of the target to the mean of the closest dot cloud. It can take 3 values: 3, 2.5 and 2.1. A value of 2 means that the target is in the middle of the 2 closest clouds.
 - _xtarget:_ x position of target on the screen.
