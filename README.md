@@ -6,7 +6,7 @@ This repository contains all the experimental data and scripts used for the stud
 
 In order to run the scripts you'll have to download the experimental data. All scripts are in R language, and in order to be runned you will need to install 3 libraries: "tidyverse", "DirichletReg" and "scales". To do that, simply type in the R console the command "_install.packages()_" with the name of the library as a parameter. 
 
-In the 'scripts' folder there are 6 sub-foulders. First 5 contains the source html/js code of the experiments, the .jzip archives to directly upload the experiments to JATOS and scripts that reproduce the main figures of the paper. In sub-folder 'models' you'll find the code that performs the model fitting and simulations of the 4 models proposed for this study: the max model, the diff model, the contrast model and the average residual model. In order to perform model fitting simply run the wrapper.R file.
+In the 'scripts' folder there are 6 sub-foulders. First 5 contains the source html/js code of the experiments, the .jzip archives to directly upload the experiments to JATOS and scripts that reproduce the main figures of the paper. In sub-folder 'modeling' you'll find the code that performs the model fitting and simulations of the 4 models proposed for this study: the max model, the diff model, the contrast model and the average residual model. In order to perform model fitting simply run the wrapper.R file.
 
 ## How is data organized 
 
