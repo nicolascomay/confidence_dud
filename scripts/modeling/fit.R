@@ -7,7 +7,7 @@ fit <- function(data,model,a1,a2,a3,nd,n,m){
   b1up  <- 4
   
   # loop on subjects and find best-fitting parameter values
-  fittedpars <- data.frame(sigma=NA,alpha=NA,b0=NA,b1=NA,b2=NA,loglik=NA)
+  fittedpars <- data.frame(sigma=NA,alpha=NA,b0=NA,b1=NA,loglik=NA)
   
   for(i in 1:99){ # loop on subjects
     
@@ -91,22 +91,19 @@ fit <- function(data,model,a1,a2,a3,nd,n,m){
     # get best fitting values
     fittedpars[i,] <- c(estimationD$par[1], estimationD$par[2],
                         estimationC$par[1], estimationC$par[2],
-                        estimationC$par[3], -estimationC$value)
+                        -estimationC$value)
     
     cat(c('Best values:', '\n'))
     cat(c('Sigma =', estimationD$par[1], '\n')) 
     cat(c('Alpha =',estimationD$par[2], '\n'))
     cat(c('b0 =', estimationC$par[1], '\n'))
     cat(c('b1 =', estimationC$par[2], '\n'))
-    cat(c('b2 =', estimationC$par[3], '\n'))
     cat(c('Log-likelihood for this parameters =', -estimationC$value), '\n')
     
     cat('Done.', '\n')
     
     cat('--------------------------------------------', '\n')
-  }
-  
-  
+  }  
   
   return(fittedpars)
 }
