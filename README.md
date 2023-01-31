@@ -1,6 +1,6 @@
 # confidence_dud
 
-This repository contains all the experimental data and scripts used for the study "_The presence of irrelevant alternatives paradoxically increases confidence in perceptual decisions_" (Comay, Della Bella, Lamberti, Sigman, Solovey & Barttfeld; _submitted_). Preprint available at https://psyarxiv.com/zq7gw
+This repository contains all the experimental data and scripts used for the study "_The presence of irrelevant alternatives paradoxically increases confidence in perceptual decisions_" (Comay, Della Bella, Lamberti, Sigman, Solovey & Barttfeld; 2023). Publication available at: https://www.sciencedirect.com/science/article/pii/S0010027723000112?dgcid=coauthor. Preprint available at https://psyarxiv.com/zq7gw. 
 
 ## Usage
 
