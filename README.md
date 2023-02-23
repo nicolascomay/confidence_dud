@@ -10,7 +10,7 @@ In the 'scripts' folder there are 6 sub-folders. First 5 contains the source htm
 
 ## How is data organized 
 
-In folder "data" you will find the data for the 3 experiments. Rows are trials, and the columns are organized as follows:
+In folder "data" you will find the data for the 5 experiments. Rows are trials, and the columns are organized as follows:
 
 #### Experiments 1, 2 & 4
 
