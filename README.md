@@ -60,5 +60,5 @@ _The rest of the variables are the same as in experiment 1, 2 & 4._
 
 ## Contact
 
-For any doubts or suggestions you can send an e-mail to the corresponding author at nicolascomay@gmail.com
+For any doubts or suggestions you can send an e-mail to the corresponding author at nicocomay@gmail.com
 
